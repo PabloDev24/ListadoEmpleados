@@ -1,0 +1,39 @@
+.header-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* Gradient accent bar at the top */
+.header-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%);
+}
+
+.header-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--txt);
+  line-height: 1.2;
+}
+
+/* "Componente" tag — top-right corner */
+.component-tag {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--danger);
+}

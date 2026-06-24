@@ -1,0 +1,17 @@
+/* App shell — layout only, variables are in styles.css */
+
+.app-shell {
+  min-height: 100vh;
+  padding: 2.5rem 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.app-content {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

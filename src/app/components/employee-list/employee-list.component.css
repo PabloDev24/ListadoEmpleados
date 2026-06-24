@@ -1,0 +1,129 @@
+/* ── List card ── */
+.list-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* ── Table wrapper (horizontal scroll) ── */
+.table-wrap {
+  overflow-x: auto;
+}
+
+/* ── Table ── */
+.emp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+/* Header row */
+.emp-table thead tr {
+  background: #f1f5f9;
+  border-bottom: 2px solid var(--border);
+}
+
+.emp-table th {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: var(--txt-muted);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.emp-table th .arr {
+  font-size: 0.6rem;
+  opacity: 0.5;
+  margin-left: 2px;
+}
+
+/* Body rows */
+.emp-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.emp-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.emp-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.emp-table td {
+  padding: 0.75rem 1rem;
+  color: var(--txt);
+  vertical-align: middle;
+}
+
+/* Column helpers */
+.col-num { width: 3.5rem; text-align: center; }
+.fw-medium { font-weight: 500; }
+.muted { color: var(--txt-muted); }
+
+/* Gender pill */
+.gender-pill {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 99px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.gender-pill.male {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.gender-pill.female {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+/* Delete button */
+.btn-del {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--danger);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s, opacity 0.15s;
+}
+
+.btn-del:hover {
+  color: #9f1239;
+  opacity: 0.85;
+}
+
+/* Empty state */
+.empty-row {
+  text-align: center;
+  padding: 3rem !important;
+  color: var(--txt-faint);
+  font-style: italic;
+}
+
+/* Card footer with "Componente" tag */
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.component-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--danger);
+}

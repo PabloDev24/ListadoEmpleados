@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================================
+   GLOBAL DESIGN SYSTEM — accesible para todos los componentes
+   ============================================================ */
+
+:root {
+  --primary:        #4f46e5;
+  --primary-light:  rgba(79, 70, 229, 0.12);
+  --primary-glow:   rgba(79, 70, 229, 0.28);
+  --danger:         #e11d48;
+  --danger-light:   rgba(225, 29, 72, 0.10);
+
+  --bg:             #f1f5f9;
+  --surface:        #ffffff;
+  --surface-2:      #f8fafc;
+  --border:         #e2e8f0;
+  --border-focus:   #4f46e5;
+
+  --txt:            #0f172a;
+  --txt-muted:      #64748b;
+  --txt-faint:      #94a3b8;
+
+  --radius:         10px;
+  --radius-sm:      6px;
+  --shadow:         0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg:      0 8px 32px rgba(0,0,0,.10);
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
