@@ -23,8 +23,8 @@ import { Employee } from '../../models/employee.model';
             </tr>
           </thead>
           <tbody>
-            @for (emp of employeeService.employees(); track emp.numEmpleado) {
-              <tr>
+            @for (emp of svc.employees(); track emp.numEmpleado) {
+              <tr [class.editing-row]="svc.editingEmployee()?.numEmpleado === emp.numEmpleado">
                 <td class="col-num">{{ emp.numEmpleado }}</td>
                 <td class="fw-medium">{{ emp.nombre }}</td>
                 <td class="muted">{{ emp.correo }}</td>
@@ -37,14 +37,19 @@ import { Employee } from '../../models/employee.model';
                     {{ emp.sexo }}
                   </span>
                 </td>
-                <td>
-                  <button class="btn-del" (click)="delete(emp.numEmpleado)">
+                <td class="actions-cell">
+                  <button class="btn-edit" (click)="edit(emp)"
+                          [disabled]="svc.editingEmployee()?.numEmpleado === emp.numEmpleado">
+                    Editar
+                  </button>
+                  <button class="btn-del" (click)="delete(emp.numEmpleado)"
+                          [disabled]="!!svc.editingEmployee()">
                     Eliminar
                   </button>
                 </td>
               </tr>
             }
-            @if (employeeService.employees().length === 0) {
+            @if (svc.employees().length === 0) {
               <tr>
                 <td colspan="7" class="empty-row">Sin empleados registrados.</td>
               </tr>
@@ -60,7 +65,7 @@ import { Employee } from '../../models/employee.model';
   styleUrl: './employee-list.component.css'
 })
 export class EmployeeListComponent {
-  public employeeService = inject(EmployeeService);
+  public svc = inject(EmployeeService);
 
   formatDate(dateStr: string): string {
     if (!dateStr) return '';
@@ -68,7 +73,13 @@ export class EmployeeListComponent {
     return `${d}/${m}/${y?.slice(2)}`;
   }
 
+  edit(emp: Employee) {
+    this.svc.startEditing(emp);
+    // Scroll suave al formulario
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   delete(numEmpleado: string) {
-    this.employeeService.deleteEmployee(numEmpleado);
+    this.svc.deleteEmployee(numEmpleado);
   }
 }

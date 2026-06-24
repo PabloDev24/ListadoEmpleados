@@ -9,7 +9,6 @@
   overflow: hidden;
 }
 
-/* Gradient accent bar at the top */
 .header-card::before {
   content: '';
   position: absolute;
@@ -26,7 +25,6 @@
   line-height: 1.2;
 }
 
-/* "Componente" tag — top-right corner */
 .component-tag {
   position: absolute;
   top: 0.75rem;

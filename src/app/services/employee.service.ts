@@ -40,17 +40,38 @@ export class EmployeeService {
     }
   ]);
 
+  private editingEmployeeSignal = signal<Employee | null>(null);
+
   get employees() {
     return this.employeesSignal.asReadonly();
   }
 
+  get editingEmployee() {
+    return this.editingEmployeeSignal.asReadonly();
+  }
+
   addEmployee(employee: Employee) {
-    this.employeesSignal.update(employees => [...employees, employee]);
+    this.employeesSignal.update(list => [...list, employee]);
+  }
+
+  updateEmployee(updated: Employee) {
+    this.employeesSignal.update(list =>
+      list.map(emp => emp.numEmpleado === updated.numEmpleado ? updated : emp)
+    );
+    this.clearEditing();
   }
 
   deleteEmployee(numEmpleado: string) {
-    this.employeesSignal.update(employees => 
-      employees.filter(emp => emp.numEmpleado !== numEmpleado)
+    this.employeesSignal.update(list =>
+      list.filter(emp => emp.numEmpleado !== numEmpleado)
     );
+  }
+
+  startEditing(employee: Employee) {
+    this.editingEmployeeSignal.set(employee);
+  }
+
+  clearEditing() {
+    this.editingEmployeeSignal.set(null);
   }
 }

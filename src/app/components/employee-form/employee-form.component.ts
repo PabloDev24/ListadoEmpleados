@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, effect } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmployeeService } from '../../services/employee.service';
 
@@ -7,9 +7,9 @@ import { EmployeeService } from '../../services/employee.service';
   standalone: true,
   imports: [ReactiveFormsModule],
   template: `
-    <section class="fieldset-card">
-      <!-- Legend-style label like the wireframe -->
-      <span class="fieldset-legend">Registro</span>
+    <section class="fieldset-card" [class.edit-mode]="isEditing()">
+      <!-- Legend-style label -->
+      <span class="fieldset-legend">{{ isEditing() ? 'Editar Empleado' : 'Registro' }}</span>
       <span class="component-tag">Componente</span>
 
       <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
@@ -18,6 +18,8 @@ import { EmployeeService } from '../../services/employee.service';
           <label for="numEmpleado">Num. Empleado:</label>
           <input id="numEmpleado" type="text" formControlName="numEmpleado"
                  placeholder="Ej. 5"
+                 [readonly]="isEditing()"
+                 [class.readonly]="isEditing()"
                  [class.invalid]="isInvalid('numEmpleado')">
         </div>
 
@@ -48,7 +50,7 @@ import { EmployeeService } from '../../services/employee.service';
                  [class.invalid]="isInvalid('fechaNacimiento')">
         </div>
 
-        <!-- Sexo + Agregar button row -->
+        <!-- Sexo + botones -->
         <div class="bottom-row">
           <div class="radio-group">
             <label class="radio-label-title">Sexo:</label>
@@ -66,9 +68,17 @@ import { EmployeeService } from '../../services/employee.service';
             </div>
           </div>
 
-          <button type="submit" class="btn-add" [disabled]="employeeForm.invalid">
-            Agregar
-          </button>
+          <div class="action-btns">
+            @if (isEditing()) {
+              <button type="button" class="btn-cancel" (click)="cancelEdit()">
+                Cancelar
+              </button>
+            }
+            <button type="submit" class="btn-add" [class.btn-save]="isEditing()"
+                    [disabled]="employeeForm.invalid">
+              {{ isEditing() ? 'Guardar' : 'Agregar' }}
+            </button>
+          </div>
         </div>
 
       </form>
@@ -78,16 +88,37 @@ import { EmployeeService } from '../../services/employee.service';
 })
 export class EmployeeFormComponent {
   private fb = inject(FormBuilder);
-  private employeeService = inject(EmployeeService);
+  private svc = inject(EmployeeService);
 
   employeeForm: FormGroup = this.fb.group({
-    numEmpleado: ['', Validators.required],
-    nombre:      ['', Validators.required],
-    correo:      ['', [Validators.required, Validators.email]],
-    telefono:    ['', Validators.required],
+    numEmpleado:     ['', Validators.required],
+    nombre:          ['', Validators.required],
+    correo:          ['', [Validators.required, Validators.email]],
+    telefono:        ['', Validators.required],
     fechaNacimiento: ['', Validators.required],
-    sexo: ['', Validators.required]
+    sexo:            ['', Validators.required]
   });
+
+  isEditing = this.svc.editingEmployee;
+
+  constructor() {
+    // Cuando el servicio emite un empleado a editar, rellenar el formulario
+    effect(() => {
+      const emp = this.svc.editingEmployee();
+      if (emp) {
+        this.employeeForm.setValue({
+          numEmpleado:     emp.numEmpleado,
+          nombre:          emp.nombre,
+          correo:          emp.correo,
+          telefono:        emp.telefono,
+          fechaNacimiento: emp.fechaNacimiento,
+          sexo:            emp.sexo
+        });
+      } else {
+        this.employeeForm.reset();
+      }
+    });
+  }
 
   isInvalid(field: string): boolean {
     const ctrl = this.employeeForm.get(field);
@@ -95,11 +126,19 @@ export class EmployeeFormComponent {
   }
 
   onSubmit() {
-    if (this.employeeForm.valid) {
-      this.employeeService.addEmployee(this.employeeForm.value);
-      this.employeeForm.reset();
-    } else {
+    if (this.employeeForm.invalid) {
       this.employeeForm.markAllAsTouched();
+      return;
     }
+    if (this.svc.editingEmployee()) {
+      this.svc.updateEmployee(this.employeeForm.value);
+    } else {
+      this.svc.addEmployee(this.employeeForm.value);
+      this.employeeForm.reset();
+    }
+  }
+
+  cancelEdit() {
+    this.svc.clearEditing();
   }
 }

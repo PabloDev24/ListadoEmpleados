@@ -1,4 +1,3 @@
-/* ── List card ── */
 .list-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -7,19 +6,16 @@
   overflow: hidden;
 }
 
-/* ── Table wrapper (horizontal scroll) ── */
 .table-wrap {
   overflow-x: auto;
 }
 
-/* ── Table ── */
 .emp-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
 }
 
-/* Header row */
 .emp-table thead tr {
   background: #f1f5f9;
   border-bottom: 2px solid var(--border);
@@ -39,7 +35,6 @@
   margin-left: 2px;
 }
 
-/* Body rows */
 .emp-table tbody tr {
   border-bottom: 1px solid var(--border);
   transition: background 0.15s;
@@ -53,18 +48,22 @@
   background: #f8fafc;
 }
 
+.emp-table tbody tr.editing-row {
+  background: var(--primary-light);
+  outline: 2px solid rgba(79,70,229,.2);
+  outline-offset: -2px;
+}
+
 .emp-table td {
   padding: 0.75rem 1rem;
   color: var(--txt);
   vertical-align: middle;
 }
 
-/* Column helpers */
 .col-num { width: 3.5rem; text-align: center; }
 .fw-medium { font-weight: 500; }
 .muted { color: var(--txt-muted); }
 
-/* Gender pill */
 .gender-pill {
   display: inline-block;
   padding: 0.2rem 0.65rem;
@@ -83,7 +82,35 @@
   color: #be185d;
 }
 
-/* Delete button */
+.actions-cell {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.btn-edit {
+  background: none;
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--primary);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.btn-edit:hover:not(:disabled) {
+  background: var(--primary-light);
+  border-color: var(--primary);
+}
+
+.btn-edit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .btn-del {
   background: none;
   border: none;
@@ -98,12 +125,17 @@
   transition: color 0.15s, opacity 0.15s;
 }
 
-.btn-del:hover {
+.btn-del:hover:not(:disabled) {
   color: #9f1239;
   opacity: 0.85;
 }
 
-/* Empty state */
+.btn-del:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 .empty-row {
   text-align: center;
   padding: 3rem !important;
@@ -111,7 +143,6 @@
   font-style: italic;
 }
 
-/* Card footer with "Componente" tag */
 .card-footer {
   display: flex;
   justify-content: flex-end;
